@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="login_signup.css" />
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  </head>
+  <body>
+    <div class="box" id="signup">
+      <div class="heading-ism-logo">
+      <img src="images/ism-logo.jpg" alt="">
+      <h2>Signup</h2>
+      </div>
+      <input
+        type="email"
+        name="signup-email"
+        id="signup-email"
+        placeholder="Enter Email"
+      /><br />
+      <input
+        type="password"
+        name="signup-password"
+        id="signup-password"
+        placeholder="Enter Password"
+      /><br />
+      <button id="signup-btn" class="first-btn" onclick="signUp()">
+        Signup
+      </button>
+      <button id="login2-btn" class="second-btn">
+        Already have an account? LOGIN
+      </button>
+    </div>
+    
+
+    <div class="box" id="login">
+      <div class="heading-ism-logo">
+        <img src="images/ism-logo.jpg" alt="">
+        <h2>Login</h2>
+        </div>
+      <input
+        type="email"
+        name="login-email"
+        id="login-email"
+        placeholder="Enter Email"
+        class="text-field"
+      /><br />
+      <input
+        type="password"
+        name="login-password"
+        id="login-password"
+        class="text-field"
+        placeholder="Enter Password"
+      /><br />
+      <button id="login-btn" class="first-btn" onclick="signIn()">Login</button>
+      <button id="signup2-btn" class="second-btn">
+        Don't have an account? SIGNUP
+      </button>
+    </div>
+    
+    <script src="login_signup.js"></script>
+  </body>
+</html>
