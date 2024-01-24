@@ -1,2 +1,0 @@
-# EduHelp-Forum
-WOC project 
