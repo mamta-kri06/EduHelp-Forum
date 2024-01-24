@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-storage-compat.js"></script>
+    <script type="module" src="">
+      import { initializeApp } from "firebase/app";
+      import { getStorage } from "firebase/storage";
+    </script>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        background-color: black;
+        color: white;
+      }
+      .inputFile {
+        display: none;
+      }
+      label {
+        height: 100px;
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        margin-bottom: 10px;
+        font-size: 23px;
+        cursor: pointer;
+        background: #a20f1b;
+        text-align: center;
+        border-radius: 36px;
+      }
+      button {
+        padding: 20px;
+        background-color: rgb(12, 70, 179);
+        color: white;
+        border: none;
+        margin-bottom: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: 700;
+        border-radius: 25px;
+      }
+      .bar {
+        height: 50px;
+        width: 450px;
+        background-color: white;
+        margin-bottom: 10px;
+      }
+      .progress {
+        background: red;
+        height: 100%;
+        width: 0%;
+      }
+      .uploadPercentage {
+        font-size: 25px;
+      }
+      .img {
+        height: 100px;
+        width: 100px;
+        object-fit: cover;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <input
+      type="file"
+      class="inputFile"
+      id="fileInp"
+      onchange="getFile(event)"
+      accept="pdfs/* "
+    />
+    <label for="fileInp">Select PDF</label>
+    <span class="fileText"></span>
+    <button onclick="uploadPdfs()">Upload PDF</button>
+    <div class="bar">
+      <div class="progress"></div>
+    </div>
+    <div class="uploadPercentage">0%</div>
+
+    <div class="imageUploaded">
+      <img alt="" />
+    </div>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBT9i4oxvP_jqjpeijAiqbTWMxU5S5LnrA",
+        authDomain: "signup-85723.firebaseapp.com",
+        databaseURL: "https://signup-85723-default-rtdb.firebaseio.com",
+        projectId: "signup-85723",
+        storageBucket: "signup-85723.appspot.com",
+        messagingSenderId: "403863388478",
+        appId: "1:403863388478:web:a20bc4d5fbee515d17ac6f",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script>
+      var fileText = document.querySelector(".fileText");
+      var uploadPercentage = document.querySelector(".uploadPercentage");
+      var progress = document.querySelector(".progress");
+      var percentVal;
+      var fileItem;
+      var fileName;
+      var img = document.querySelector(".img");
+      function getFile(e) {
+        fileItem = e.target.files[0];
+        fileName = fileItem.name;
+        fileText.innerHTML = fileName;
+      }
+
+      function uploadPdfs() {
+        let storageRef = firebase.storage().ref("pdfs/" + fileName);
+        let uploadTask = storageRef.put(fileItem);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            console.log(snapshot);
+            percentVal =
+              Math.floor(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(percentVal);
+            uploadPercentage.innerHTML = percentVal + "%";
+            progress.style.width = percentVal + "%";
+          },
+          (error) => {
+            console.log("Error is ", error);
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+              console.log("URL", url);
+
+              if (url != "") {
+                img.setAttribute("pdfs", url);
+                img.style.display = "block";
+              }
+            });
+          }
+        );
+      }
+    </script>
+
+  </body>
+</html>
